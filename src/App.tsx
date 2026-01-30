@@ -38,7 +38,7 @@ const styles: Record<string, React.CSSProperties> = {
     borderRadius: "4px",
     cursor: "pointer",
   },
-} as const;
+};
 
 export function App() {
   const ref = useRef<ParamEditor>(null);

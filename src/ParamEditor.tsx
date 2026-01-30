@@ -60,7 +60,7 @@ const styles: Record<string, React.CSSProperties> = {
     border: "1px solid #d0d0d0",
     borderRadius: "4px",
   },
-} as const;
+};
 
 function ParamInput({ param, value, onChange }: ParamInputProps) {
   // extensible: we can add new cases here later, if new param types appear
