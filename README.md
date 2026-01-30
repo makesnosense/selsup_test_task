@@ -5,10 +5,10 @@ React/TypeScript parameter editor component test task.
 ## Quick Start
 
 ```bash
-npm i && npm run dev
+npm i && npm test && npm run dev
 ```
 
-Open http://localhost:5173
+Tests verify component behavior, then dev server starts at http://localhost:5173
 
 ## Implementation Notes
 
