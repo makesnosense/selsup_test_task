@@ -46,10 +46,11 @@ export default class ParamEditor extends React.Component<Props, State> {
 
   public getModel(): Model {
     return {
-      paramValues: [],
-      colors: [],
+      paramValues: this.state.paramValues,
+      colors: this.props.model.colors,
     };
   }
+
   render() {
     return <div>ParamEditor работает!</div>;
   }
