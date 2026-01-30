@@ -8,6 +8,8 @@ Parameter editor component in React and TypeScript.
 npm i && npm test && npm run dev
 ```
 
+![test results](./tests-passing.png)
+
 Tests verify component behavior, then dev server starts at http://localhost:5173
 
 ## Implementation Notes
