@@ -32,6 +32,39 @@ interface ParamInputProps {
   onChange: (value: string) => void;
 }
 
+const styles = {
+  editor: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "12px",
+    padding: "24px 8px",
+    fontFamily: "system-ui, sans-serif",
+    fontSize: "1rem",
+  },
+  param: {
+    display: "grid",
+    gridTemplateColumns: "140px 1fr",
+    alignItems: "center",
+    gap: "16px",
+  },
+  paramLabel: {
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    fontWeight: "500",
+    textAlign: "right",
+  },
+  paramInput: {
+    boxSizing: "border-box",
+    width: "100%",
+    maxWidth: "320px",
+    padding: "8px 12px",
+    border: "1px solid #d0d0d0",
+    borderRadius: "4px",
+    fontSize: "inherit",
+  },
+} as const;
+
 function ParamInput({ param, value, onChange }: ParamInputProps) {
   // extensible: we can add new cases here later, if new param types appear
   switch (param.type) {
@@ -41,6 +74,7 @@ function ParamInput({ param, value, onChange }: ParamInputProps) {
           type="text"
           value={value}
           onChange={(event) => onChange(event.target.value)}
+          style={styles.paramInput}
         />
       );
     default:
@@ -86,15 +120,17 @@ export default class ParamEditor extends React.Component<
 
   render() {
     return (
-      <div>
+      <div style={styles.editor}>
         {this.props.params.map((param) => {
           const paramValueFromState = this.state.paramValues.find(
             (paramValue) => paramValue.paramId === param.id,
           );
 
           return (
-            <label key={param.id}>
-              {param.name}:
+            <label key={param.id} style={styles.param}>
+              <span style={styles.paramLabel} title={param.name}>
+                {param.name}:
+              </span>
               <ParamInput
                 param={param}
                 value={paramValueFromState?.value ?? ""}
