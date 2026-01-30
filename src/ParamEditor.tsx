@@ -17,17 +17,42 @@ interface Model {
   colors: Color[];
 }
 
-interface Props {
+interface ParamEditorProps {
   params: Param[];
   model: Model;
 }
 
-interface State {
+interface ParamEditorState {
   paramValues: ParamValue[];
 }
 
-export default class ParamEditor extends React.Component<Props, State> {
-  constructor(props: Props) {
+interface ParamInputProps {
+  param: Param;
+  value: string;
+  onChange: (value: string) => void;
+}
+
+function ParamInput({ param, value, onChange }: ParamInputProps) {
+  // extensible: we can add new cases here later, if new param types appear
+  switch (param.type) {
+    case "string":
+      return (
+        <input
+          type="text"
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+        />
+      );
+    default:
+      return null;
+  }
+}
+
+export default class ParamEditor extends React.Component<
+  ParamEditorProps,
+  ParamEditorState
+> {
+  constructor(props: ParamEditorProps) {
     super(props);
 
     const initialParamValues = props.params.map((param) => {
@@ -53,29 +78,11 @@ export default class ParamEditor extends React.Component<Props, State> {
 
   handleChange = (paramId: number, value: string) => {
     this.setState((prevState) => ({
-      paramValues: prevState.paramValues.map((pv) =>
-        pv.paramId === paramId ? { ...pv, value } : pv,
+      paramValues: prevState.paramValues.map((paramValue) =>
+        paramValue.paramId === paramId ? { ...paramValue, value } : paramValue,
       ),
     }));
   };
-
-  renderParamInput(param: Param, value: string): React.ReactNode {
-    // extensible: we can add new cases here later, if new param types appear
-    switch (param.type) {
-      case "string":
-        return (
-          <input
-            type="text"
-            value={value}
-            onChange={(event) =>
-              this.handleChange(param.id, event.target.value)
-            }
-          />
-        );
-      default:
-        return null;
-    }
-  }
 
   render() {
     return (
@@ -86,12 +93,14 @@ export default class ParamEditor extends React.Component<Props, State> {
           );
 
           return (
-            <div key={param.id}>
-              <label>
-                {param.name}:
-                {this.renderParamInput(param, paramValueFromState?.value ?? "")}
-              </label>
-            </div>
+            <label key={param.id}>
+              {param.name}:
+              <ParamInput
+                param={param}
+                value={paramValueFromState?.value ?? ""}
+                onChange={(value) => this.handleChange(param.id, value)}
+              />
+            </label>
           );
         })}
       </div>
