@@ -21,7 +21,7 @@ export function App() {
     <div>
       <ParamEditor ref={ref} params={params} model={model} />
       <button onClick={() => console.log(ref.current?.getModel())}>
-        Получить модель (см. консоль)
+        Получить модель в консоль
       </button>
     </div>
   );
