@@ -14,15 +14,46 @@ const model = {
   colors: [],
 };
 
+const styles = {
+  app: {
+    display: "flex",
+    flexDirection: "column",
+    width: "fit-content",
+    padding: "24px 8px",
+    gap: "1.5rem",
+    fontFamily: "system-ui, sans-serif",
+    fontSize: "1rem",
+  },
+  getModelButtonWrapper: {
+    display: "grid",
+    gridTemplateColumns: "140px 1fr",
+    gap: "16px",
+  },
+  getModelButton: {
+    gridColumn: "2",
+    width: "fit-content",
+    padding: "8px 16px",
+    fontSize: "inherit",
+    backgroundColor: "#ffffff",
+    borderRadius: "4px",
+    cursor: "pointer",
+  },
+} as const;
+
 export function App() {
   const ref = useRef<ParamEditor>(null);
 
   return (
-    <div>
+    <div style={styles.app}>
       <ParamEditor ref={ref} params={params} model={model} />
-      <button onClick={() => console.log(ref.current?.getModel())}>
-        Получить модель в консоль
-      </button>
+      <div style={styles.getModelButtonWrapper}>
+        <button
+          onClick={() => console.log(ref.current?.getModel())}
+          style={styles.getModelButton}
+        >
+          Получить модель в консоль
+        </button>
+      </div>
     </div>
   );
 }

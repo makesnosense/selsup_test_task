@@ -37,9 +37,6 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     gap: "12px",
-    padding: "24px 8px",
-    fontFamily: "system-ui, sans-serif",
-    fontSize: "1rem",
   },
   param: {
     display: "grid",
@@ -56,12 +53,11 @@ const styles = {
   },
   paramInput: {
     boxSizing: "border-box",
-    width: "100%",
-    maxWidth: "320px",
+    width: "280px",
     padding: "8px 12px",
+    fontSize: "inherit",
     border: "1px solid #d0d0d0",
     borderRadius: "4px",
-    fontSize: "inherit",
   },
 } as const;
 
