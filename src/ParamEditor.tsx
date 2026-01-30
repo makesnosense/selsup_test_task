@@ -5,6 +5,7 @@ export interface Param {
   name: string;
   type: "string";
 }
+
 interface ParamValue {
   paramId: number;
   value: string;
@@ -23,7 +24,7 @@ interface ParamEditorProps {
 }
 
 interface ParamEditorState {
-  paramValues: ParamValue[];
+  paramValueMap: Record<number, string>;
 }
 
 interface ParamInputProps {
@@ -85,56 +86,49 @@ export default class ParamEditor extends React.Component<
   constructor(props: ParamEditorProps) {
     super(props);
 
-    const initialParamValues = props.params.map((param) => {
-      const existingValue = props.model.paramValues.find(
+    const paramValueMap: Record<number, string> = {};
+
+    props.params.forEach((param) => {
+      const existingValueForParam = props.model.paramValues.find(
         (paramValue) => paramValue.paramId === param.id,
       );
-
-      return {
-        paramId: param.id,
-        value: existingValue ? existingValue.value : "",
-      };
+      paramValueMap[param.id] = existingValueForParam?.value ?? "";
     });
 
-    this.state = { paramValues: initialParamValues };
+    this.state = { paramValueMap };
   }
 
   public getModel(): Model {
     return {
-      paramValues: this.state.paramValues,
+      paramValues: this.props.params.map((param) => ({
+        paramId: param.id,
+        value: this.state.paramValueMap[param.id] ?? "",
+      })),
       colors: this.props.model.colors,
     };
   }
 
   handleChange = (paramId: number, value: string) => {
     this.setState((prevState) => ({
-      paramValues: prevState.paramValues.map((paramValue) =>
-        paramValue.paramId === paramId ? { ...paramValue, value } : paramValue,
-      ),
+      paramValueMap: { ...prevState.paramValueMap, [paramId]: value },
     }));
   };
 
   render() {
     return (
       <div style={styles.editor}>
-        {this.props.params.map((param) => {
-          const paramValueFromState = this.state.paramValues.find(
-            (paramValue) => paramValue.paramId === param.id,
-          );
-
-          return (
-            <label key={param.id} style={styles.param}>
-              <span style={styles.paramLabel} title={param.name}>
-                {param.name}:
-              </span>
-              <ParamInput
-                param={param}
-                value={paramValueFromState?.value ?? ""}
-                onChange={(value) => this.handleChange(param.id, value)}
-              />
-            </label>
-          );
-        })}
+        {this.props.params.map((param) => (
+          <label key={param.id} style={styles.param}>
+            <span style={styles.paramLabel} title={param.name}>
+              {param.name}:
+            </span>
+            <ParamInput
+              param={param}
+              value={this.state.paramValueMap[param.id] ?? ""}
+              onChange={(value) => this.handleChange(param.id, value)}
+            />
+          </label>
+        ))}
       </div>
     );
   }
