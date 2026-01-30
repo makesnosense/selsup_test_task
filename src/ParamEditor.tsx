@@ -10,7 +10,7 @@ interface ParamValue {
   value: string;
 }
 
-interface Color {}
+type Color = unknown;
 
 interface Model {
   paramValues: ParamValue[];
