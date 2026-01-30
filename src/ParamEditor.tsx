@@ -32,7 +32,7 @@ interface ParamInputProps {
   onChange: (value: string) => void;
 }
 
-const styles = {
+const styles: Record<string, React.CSSProperties> = {
   editor: {
     display: "flex",
     flexDirection: "column",

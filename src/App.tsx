@@ -14,7 +14,7 @@ const model = {
   colors: [],
 };
 
-const styles = {
+const styles: Record<string, React.CSSProperties> = {
   app: {
     display: "flex",
     flexDirection: "column",
