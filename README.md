@@ -1,6 +1,6 @@
 # ParamEditor test task
 
-React/TypeScript parameter editor component test task.
+Parameter editor component in React and TypeScript.
 
 ## Quick Start
 
